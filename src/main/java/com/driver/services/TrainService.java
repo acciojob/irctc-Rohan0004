@@ -129,8 +129,7 @@ public class TrainService {
             if (dist != -1){
                 LocalTime arrivalTime = train.getDepartureTime();
                 arrivalTime = arrivalTime.plusHours(dist);
-                startTime = startTime.minusMinutes(1);
-                endTime = endTime.plusMinutes(1);
+
                 if (startTime.isBefore(arrivalTime) && endTime.isAfter(arrivalTime))
                     trainsPassingAtGivenTime.add(train.getTrainId());
             }
