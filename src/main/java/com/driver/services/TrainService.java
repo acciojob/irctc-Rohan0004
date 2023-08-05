@@ -128,11 +128,10 @@ public class TrainService {
             int dist=train.getRoute().indexOf(station+"");
             if (dist != -1){
                 LocalTime arrivalTime = train.getDepartureTime();
-                arrivalTime.plusHours(dist);
-
+                arrivalTime = arrivalTime.plusHours(dist);
+                startTime = startTime.minusMinutes(1);
+                endTime = endTime.plusMinutes(1);
                 if (startTime.isBefore(arrivalTime) && endTime.isAfter(arrivalTime))
-                    trainsPassingAtGivenTime.add(train.getTrainId());
-                else if (startTime.equals(arrivalTime) || endTime.equals(arrivalTime))
                     trainsPassingAtGivenTime.add(train.getTrainId());
             }
         }
