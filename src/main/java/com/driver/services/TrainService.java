@@ -127,13 +127,18 @@ public class TrainService {
         Integer sTime = startTime.getHour()*60 + startTime.getMinute();
         Integer eTime = endTime.getHour()*60 + endTime.getMinute();
         for (Train train: trains) {
-            int dist=train.getRoute().indexOf(station+"");
+            int dist=train.getRoute().indexOf(String.valueOf(station));
             if (dist != -1){
-                LocalTime departureTime = train.getDepartureTime();
-                Integer arrivalTime = departureTime.getHour()*60+departureTime.getMinute()+dist*60;
+                String [] route = train.getRoute().split(",");
+                for (int i=0; i<route.length ;i++){
+                    if (route[i].equals(String.valueOf(station))){
+                        LocalTime departureTime = train.getDepartureTime();
+                        Integer arrivalTime = departureTime.getHour()*60+departureTime.getMinute()+i*60;
 
-                if (sTime<=arrivalTime && arrivalTime<=eTime)
-                    trainsPassingAtGivenTime.add(train.getTrainId());
+                        if (sTime<=arrivalTime && arrivalTime<=eTime)
+                            trainsPassingAtGivenTime.add(train.getTrainId());
+                    }
+                }
             }
         }
         return trainsPassingAtGivenTime;
