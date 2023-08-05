@@ -72,7 +72,7 @@ public class TrainService {
         Integer to = stationIndexMap.get(seatAvailabilityEntryDto.getToStation().toString());
         if (from==null || to == null || from>=to) return 0;
         Integer bookedSeats = 0;
-        for (int i=from; i<=to ; i++){
+        for (int i=from; i<to ; i++){
             bookedSeats=Math.max(bookedSeats,bookedTickets[i]);
         }
        return train.getNoOfSeats()-bookedSeats;
@@ -132,7 +132,7 @@ public class TrainService {
 
                 if (startTime.isBefore(arrivalTime) && endTime.isAfter(arrivalTime))
                     trainsPassingAtGivenTime.add(train.getTrainId());
-                if (startTime.equals(arrivalTime) || endTime.equals(arrivalTime))
+                else if (startTime.equals(arrivalTime) || endTime.equals(arrivalTime))
                     trainsPassingAtGivenTime.add(train.getTrainId());
             }
         }

@@ -46,10 +46,6 @@ public class TicketService {
         if (!optionalTrain.isPresent()) throw new Exception("Invalid Train");
         Train train = optionalTrain.get();
 
-        Optional<Passenger> optionalPassenger =  passengerRepository.findById(bookTicketEntryDto.getBookingPersonId());
-        if (!optionalPassenger.isPresent()) throw new Exception("Invalid Passenger");
-        Passenger passenger = optionalPassenger.get();
-
         String fromStation = String.valueOf(bookTicketEntryDto.getFromStation());
         String toStation = String.valueOf(bookTicketEntryDto.getToStation());
         if (!train.getRoute().contains(fromStation) || !train.getRoute().contains(toStation)
@@ -77,7 +73,11 @@ public class TicketService {
         for (int i=from; i<=to ; i++){
             bookedSeats=Math.max(bookedSeats,bookedTickets[i]);
         }
-        if (bookTicketEntryDto.getNoOfSeats()>(train.getNoOfSeats()-bookedSeats)) throw new Exception("Less tickets are available");
+        if (bookTicketEntryDto.getNoOfSeats() > (train.getNoOfSeats()-bookedSeats)) throw new Exception("Less tickets are available");
+
+        Optional<Passenger> optionalPassenger =  passengerRepository.findById(bookTicketEntryDto.getBookingPersonId());
+        if (!optionalPassenger.isPresent()) throw new Exception("Invalid Passenger");
+        Passenger passenger = optionalPassenger.get();
 
         List<Passenger> passengers = new ArrayList<>();
         for (Integer passId:bookTicketEntryDto.getPassengerIds()){
