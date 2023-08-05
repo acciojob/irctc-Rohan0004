@@ -35,8 +35,8 @@ public class TrainController {
     }
 
     @GetMapping("/calculate-avaiable-seats")
-    public Integer checkSeatAvailability(@RequestParam int trainId, Station station,Station station1){
-        Integer count = trainService.calculateAvailableSeats(trainId,station,station1);
+    public Integer checkSeatAvailability(@RequestBody SeatAvailabilityEntryDto seatAvailabilityEntryDto){
+        Integer count = trainService.calculateAvailableSeats(seatAvailabilityEntryDto);
         return count;
     }
 
