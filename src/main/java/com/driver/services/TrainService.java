@@ -124,13 +124,15 @@ public class TrainService {
         List<Train> trains = trainRepository.findAll();
         List<Integer> trainsPassingAtGivenTime = new ArrayList<>();
 
+        Integer sTime = startTime.getHour()*60 + startTime.getMinute();
+        Integer eTime = endTime.getHour()*60 + endTime.getMinute();
         for (Train train: trains) {
             int dist=train.getRoute().indexOf(station+"");
             if (dist != -1){
-                LocalTime arrivalTime = train.getDepartureTime();
-                arrivalTime = arrivalTime.plusHours(dist);
+                LocalTime departureTime = train.getDepartureTime();
+                Integer arrivalTime = departureTime.getHour()*60+departureTime.getMinute()+dist*60;
 
-                if (startTime.isBefore(arrivalTime) && endTime.isAfter(arrivalTime))
+                if (sTime<=arrivalTime && arrivalTime<=eTime)
                     trainsPassingAtGivenTime.add(train.getTrainId());
             }
         }
